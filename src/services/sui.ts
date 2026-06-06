@@ -38,6 +38,9 @@ export function createSuiClient(config: SuiConfig) {
 }
 
 export function loadOrCreateKeypair(): Ed25519Keypair {
+  if (process.env.SUI_PRIVATE_KEY) {
+    return Ed25519Keypair.fromSecretKey(process.env.SUI_PRIVATE_KEY.trim());
+  }
   if (fs.existsSync('.keypair')) {
     return Ed25519Keypair.fromSecretKey(
       fs.readFileSync('.keypair', 'utf8').trim()
